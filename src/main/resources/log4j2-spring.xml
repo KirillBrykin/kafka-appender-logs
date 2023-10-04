@@ -7,20 +7,35 @@
 
         <RollingFile name="FILE"
                      fileName="logs/app.log"
-                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log">
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{dd-MM-yyyy}-%i.log">
             <PatternLayout>
                 <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable</Pattern>
             </PatternLayout>
-            <SizeBasedTriggeringPolicy size="10 kB"/>
+            <SizeBasedTriggeringPolicy size="10 mb"/>
         </RollingFile>
+
+
+        <Kafka name="KAFKA" topic="budget-logs">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
+            <Property name="bootstrap.servers">localhost:9092</Property>
+        </Kafka>
+<!--        <Async name="Async">-->
+<!--            <AppenderRef ref="KAFKA"/>-->
+<!--        </Async>-->
+
+
     </Appenders>
 
     <Loggers>
-        <Root level="INFO">
-            <AppenderRef ref="CONSOLE"/>
+        <Root level="WARN">
+
+            <AppenderRef ref="KAFKA"/>
             <AppenderRef ref="FILE"/>
+
         </Root>
+        <Logger name="com.example.kafkaappenderlogs" level="INFO">
+            <AppenderRef ref="CONSOLE"/>
+        </Logger>
+<!--        <Logger name="org.apache.kafka" level="WARN"/>-->
     </Loggers>
 </Configuration>
-
-

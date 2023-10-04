@@ -14,28 +14,25 @@
             <SizeBasedTriggeringPolicy size="10 mb"/>
         </RollingFile>
 
-
         <Kafka name="KAFKA" topic="budget-logs">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
             <Property name="bootstrap.servers">localhost:9092</Property>
         </Kafka>
-<!--        <Async name="Async">-->
-<!--            <AppenderRef ref="KAFKA"/>-->
-<!--        </Async>-->
-
-
+        <Async name="Async">
+            <AppenderRef ref="KAFKA"/>
+        </Async>
     </Appenders>
 
     <Loggers>
         <Root level="WARN">
-
+            <AppenderRef ref="CONSOLE"/>
             <AppenderRef ref="KAFKA"/>
             <AppenderRef ref="FILE"/>
-
         </Root>
-        <Logger name="com.example.kafkaappenderlogs" level="INFO">
-            <AppenderRef ref="CONSOLE"/>
-        </Logger>
-<!--        <Logger name="org.apache.kafka" level="WARN"/>-->
+<!--        <Logger name="." level="WARN" additivity="false">-->
+<!--            <AppenderRef ref="KAFKA"/>-->
+<!--            <AppenderRef ref="FILE"/>-->
+<!--        </Logger>-->
+        <Logger name="org.apache.kafka" level="WARN"/>
     </Loggers>
 </Configuration>

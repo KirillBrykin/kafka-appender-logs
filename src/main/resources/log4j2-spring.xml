@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn" name="MyApp">
     <Appenders>
-        <Console name="STDOUT" target="SYSTEM_OUT">
+        <Console name="CONSOLE" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
         </Console>
-    </Appenders>
 
-    <Appenders>
-        <File name="FILE" fileName="logs/app.log">
+        <RollingFile name="FILE"
+                     fileName="logs/app.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout>
-                <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
+                <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable</Pattern>
             </PatternLayout>
-        </File>
+            <SizeBasedTriggeringPolicy size="10 kB"/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
         <Root level="INFO">
-            <AppenderRef ref="STDOUT"/>
-        </Root>
-
-        <Root level="INFO">
+            <AppenderRef ref="CONSOLE"/>
             <AppenderRef ref="FILE"/>
         </Root>
     </Loggers>

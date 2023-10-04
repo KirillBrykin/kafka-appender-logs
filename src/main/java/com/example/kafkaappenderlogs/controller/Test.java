@@ -23,6 +23,6 @@ public class Test {
         log.info("---info Hello!---");
         log.warn("---warn Hello!---");
         log.error("---error Hello!---");
-//        throw new RuntimeException("---RuntimeException Hello!---");
+        throw new RuntimeException("---RuntimeException Hello!---");
     }
 }

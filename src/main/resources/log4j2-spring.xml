@@ -2,12 +2,25 @@
 <Configuration status="warn" name="MyApp">
     <Appenders>
         <Console name="STDOUT" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
         </Console>
     </Appenders>
+
+    <Appenders>
+        <File name="FILE" fileName="logs/app.log">
+            <PatternLayout>
+                <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
+            </PatternLayout>
+        </File>
+    </Appenders>
+
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="STDOUT"/>
+        </Root>
+
+        <Root level="INFO">
+            <AppenderRef ref="FILE"/>
         </Root>
     </Loggers>
 </Configuration>

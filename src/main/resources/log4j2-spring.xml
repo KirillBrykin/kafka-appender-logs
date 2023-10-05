@@ -3,14 +3,14 @@
     <Properties>
         <Property name="logPattern">%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable</Property>
         <Property name="kafkaTopic">budget-logs</Property>
-        <Property name="bootstrapServers">10.9.35.0:29092</Property>
+        <Property name="bootstrapServer">${env:bootstrapServer}</Property>
         <Property name="securityProtocol">SASL_PLAINTEXT</Property>
         <Property name="saslMechanism">PLAIN</Property>
         <Property name="saslJaasConfig">org.apache.kafka.common.security.plain.PlainLoginModule required
             username="${kafkaUsername}" password="${kafkaPassword}";
         </Property>
-        <Property name="kafkaUsername">budget-logs</Property>
-        <Property name="kafkaPassword">budget-logs</Property>
+        <Property name="kafkaUsername">${env:kafkaUsername}</Property>
+        <Property name="kafkaPassword">${env:kafkaPassword}</Property>
         <Property name="retryBackoffMs">10000</Property>
         retry.backoff.ms
     </Properties>
@@ -31,7 +31,7 @@
 
         <Kafka name="KAFKA" topic="${kafkaTopic}">
             <PatternLayout pattern="${logPattern}"/>
-            <Property name="bootstrap.servers">${bootstrapServers}</Property>
+            <Property name="bootstrap.servers">${bootstrapServer}</Property>
             <Property name="security.protocol">${securityProtocol}</Property>
             <Property name="sasl.mechanism">${saslMechanism}</Property>
             <Property name="sasl.jaas.config">${saslJaasConfig}</Property>

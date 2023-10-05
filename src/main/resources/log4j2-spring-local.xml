@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn" name="MyApp">
     <Properties>
-        <Property name="bootstrapServers">localhost:9092</Property>
+        <Property name="logPattern">%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable</Property>
+        <Property name="kafkaTopic">budget-logs</Property>
+        <Property name="bootstrapServers">${kafka.bootstrap-server}</Property>
+        <Property name="retryBackoffMs">10000</Property>
     </Properties>
 
     <Appenders>
         <Console name="CONSOLE" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
+            <PatternLayout pattern="${logPattern}"/>
         </Console>
 
         <RollingFile name="FILE"
                      fileName="logs/app.log"
                      filePattern="logs/$${date:yyyy-MM}/app-%d{dd-MM-yyyy}-%i.log">
             <PatternLayout>
-                <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable</Pattern>
+                <Pattern>${logPattern}</Pattern>
             </PatternLayout>
             <SizeBasedTriggeringPolicy size="10 mb"/>
         </RollingFile>
 
-        <Kafka name="KAFKA" topic="budget-logs">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
+        <Kafka name="KAFKA" topic="${kafkaTopic}">
+            <PatternLayout pattern="${logPattern}"/>
             <Property name="bootstrap.servers">${bootstrapServers}</Property>
+            <Property name="retry.backoff.ms">${retryBackoffMs}</Property>
         </Kafka>
         <Async name="Async">
             <AppenderRef ref="KAFKA"/>
@@ -28,13 +32,11 @@
     </Appenders>
 
     <Loggers>
-        <Root level="INFO">
-            <AppenderRef ref="CONSOLE"/>
-        </Root>
-        <Logger name="com.example.kafkaappenderlogs" level="WARN" additivity="false">
-            <AppenderRef ref="KAFKA"/>
-            <AppenderRef ref="FILE"/>
-        </Logger>
         <Logger name="org.apache.kafka" level="WARN"/>
+        <Root level="INFO" additivity="false">
+            <AppenderRef ref="CONSOLE" level="INFO"/>
+            <AppenderRef ref="FILE" level="INFO"/>
+            <AppenderRef ref="KAFKA" level="WARN"/>
+        </Root>
     </Loggers>
 </Configuration>

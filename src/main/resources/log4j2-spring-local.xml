@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn" name="MyApp">
     <Properties>
-        <Property name="bootstrapServers">10.9.35.0:29092</Property>
-        <Property name="securityProtocol">SASL_PLAINTEXT</Property>
-        <Property name="saslMechanism">PLAIN</Property>
-        <Property name="saslJaasConfig">org.apache.kafka.common.security.plain.PlainLoginModule required
-            username="budget-logs" password="budget-logs";
-        </Property>
+        <Property name="bootstrapServers">localhost:9092</Property>
     </Properties>
 
     <Appenders>
@@ -26,9 +21,6 @@
         <Kafka name="KAFKA" topic="budget-logs">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable"/>
             <Property name="bootstrap.servers">${bootstrapServers}</Property>
-            <Property name="security.protocol">${securityProtocol}</Property>
-            <Property name="sasl.mechanism">${saslMechanism}</Property>
-            <Property name="sasl.jaas.config">${saslJaasConfig}</Property>
         </Kafka>
         <Async name="Async">
             <AppenderRef ref="KAFKA"/>
@@ -36,11 +28,13 @@
     </Appenders>
 
     <Loggers>
-        <Root level="WARN">
+        <Root level="INFO">
             <AppenderRef ref="CONSOLE"/>
+        </Root>
+        <Logger name="com.example.kafkaappenderlogs" level="WARN" additivity="false">
             <AppenderRef ref="KAFKA"/>
             <AppenderRef ref="FILE"/>
-        </Root>
+        </Logger>
         <Logger name="org.apache.kafka" level="WARN"/>
     </Loggers>
 </Configuration>

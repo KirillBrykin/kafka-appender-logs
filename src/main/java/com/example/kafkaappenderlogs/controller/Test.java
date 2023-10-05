@@ -13,12 +13,10 @@ public class Test {
     @GetMapping("/hello")
     public void hello() {
 //        System.out.println("------Test.hello------");
-//
 //        System.out.println("---log.getName()---");
 //        System.out.println(log.getName());
 //        System.out.println("---log.getClass()---");
 //        System.out.println(log.getClass());
-
         log.debug("---debug Hello!---");
         log.info("---info Hello!---");
         log.warn("---warn Hello!---");

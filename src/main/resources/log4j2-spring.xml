@@ -2,6 +2,7 @@
 <Configuration status="warn" name="MyApp">
     <Properties>
         <Property name="logPattern">%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable</Property>
+        <Property name="kafkaLogPattern">%d{HH:mm:ss.SSS} [%t] %-5level %c:%L – %msg%n%throwable{short}</Property>
         <Property name="kafkaTopic">budget-logs</Property>
         <Property name="bootstrapServer">${env:bootstrapServer}</Property>
         <Property name="securityProtocol">SASL_PLAINTEXT</Property>
@@ -30,7 +31,7 @@
         </RollingFile>
 
         <Kafka name="KAFKA" topic="${kafkaTopic}">
-            <PatternLayout pattern="${logPattern}"/>
+            <PatternLayout pattern="${kafkaLogPattern}"/>
             <Property name="bootstrap.servers">${bootstrapServer}</Property>
             <Property name="security.protocol">${securityProtocol}</Property>
             <Property name="sasl.mechanism">${saslMechanism}</Property>

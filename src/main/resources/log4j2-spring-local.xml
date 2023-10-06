@@ -21,13 +21,16 @@
             </PatternLayout>
             <SizeBasedTriggeringPolicy size="10 mb"/>
         </RollingFile>
+        <Async name="AsyncFile">
+            <AppenderRef ref="FILE"/>
+        </Async>
 
         <Kafka name="KAFKA" topic="${kafkaTopic}">
             <PatternLayout pattern="${kafkaLogPattern}"/>
             <Property name="bootstrap.servers">${bootstrapServer}</Property>
             <Property name="retry.backoff.ms">${retryBackoffMs}</Property>
         </Kafka>
-        <Async name="Async">
+        <Async name="AsyncKafka">
             <AppenderRef ref="KAFKA"/>
         </Async>
     </Appenders>

@@ -33,7 +33,7 @@
             <AppenderRef ref="FILE"/>
         </Async>
 
-        <Kafka name="KAFKA" topic="${kafkaTopic}">
+        <Kafka name="KAFKA" topic="${kafkaTopic}" key="budgetLogs">
             <PatternLayout pattern="${kafkaLogPattern}"/>
             <Property name="bootstrap.servers">${bootstrapServer}</Property>
             <Property name="security.protocol">${securityProtocol}</Property>

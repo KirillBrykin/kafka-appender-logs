@@ -1,5 +1,6 @@
 package com.example.kafkaappenderlogs.controller;
 
+import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,5 +23,14 @@ public class Test {
         log.warn("---warn Hello!---");
         log.error("---error Hello!---");
         throw new RuntimeException("---RuntimeException Hello!---");
+    }
+
+    @GetMapping("/captureSentryException")
+    public void postCaptureException() {
+        try {
+            throw new RuntimeException("---CaptureSentryRuntimeException---");
+        } catch (RuntimeException e) {
+            Sentry.captureException(e);
+        }
     }
 }

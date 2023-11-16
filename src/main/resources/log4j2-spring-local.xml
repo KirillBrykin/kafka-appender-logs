@@ -33,6 +33,14 @@
         <Async name="AsyncKafka">
             <AppenderRef ref="KAFKA"/>
         </Async>
+
+        <Sentry name="SENTRY"
+                dsn="https://f2c4396d63685ec027c1d191d22e42e3@o4506208808992768.ingest.sentry.io/4506235007074304"
+                minimumBreadcrumbLevel="DEBUG"
+                minimumEventLevel="WARN" />
+        <Async name="AsyncSentry">
+            <AppenderRef ref="SENTRY"/>
+        </Async>
     </Appenders>
 
     <Loggers>
@@ -41,6 +49,7 @@
             <AppenderRef ref="CONSOLE" level="INFO"/>
             <AppenderRef ref="FILE" level="INFO"/>
             <AppenderRef ref="KAFKA" level="WARN"/>
+            <AppenderRef ref="SENTRY" level="WARN"/>
         </Root>
     </Loggers>
 </Configuration>
